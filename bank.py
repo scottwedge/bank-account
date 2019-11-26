@@ -86,31 +86,58 @@ class Account():
         return
 
 
+#Create instance of class asap
+account = Account(0, False, False, False, 'email', 'password')
+
+
 #Write the name row of the csv file
 with open('accounts.csv', mode='w', newline = '') as accounts_file:
     writer = csv.writer(accounts_file)
     writer.writerow(['Email', 'Password', 'Balance'])
 
-while True:
+#setup up encryption key
+key = Fernet.generate_key()
+f = Fernet(key)
+
+def Loop():
+    #while True:
     #append to the csv file as you add accounts
     account = Account(0, False, False, False, 'email', 'password')
     account.openAccount()
+    password = account.password.encode()
+    encrypted = f.encrypt(password)
     with open('accounts.csv', mode='a', newline = '') as accounts_file:
         writer = csv.writer(accounts_file)#,  delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-        writer.writerow([account.email, account.password, account.balance])
+        writer.writerow([account.email, encrypted, account.balance])
 
+#All the UI in the main
 def main():
+    print("What do you want to do?"
+    "\n 1. To open account"
+    "\n 2. To Log into account"
+    "\n 3. To Delete Account")
+    userInput = int(input())
+    if userInput == 1:
+        #Loop()
+        account.openAccount()
+        main()
+    if  userInput == 2:
+        account.isLogin()
+        print("OUT of looop")
+    if userInput == 3:
+        Print("Dell")
     #Create()
     #account = Account(0, False, False, False, 'email', 'password')
     #print(account.balance)
-    account.openAccount()
-    account.isLogin()
+    #account.openAccount()
+    #account.isLogin()
     #normAccound = Account(200, False, False)
     #normAccound.isOverdraft(True)
-    account.displayBalance()
+    #account.displayBalance()
     #normAccound.withdraw(400)
     #normAccound.displayBalance()
-    account.deposit(400)
+    #account.deposit(400)
     #normAccound.displayBalance()
 
-main()
+if __name__ == '__main__':
+    main()

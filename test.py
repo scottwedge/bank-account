@@ -2,6 +2,17 @@ from cryptography.fernet import Fernet
 import random
 
 
+message = "my deep dark secret".encode()
+key = Fernet.generate_key() # Store this key or get if you already have it
+f = Fernet(key)
+encrypted = f.encrypt(message)
+decrypted = f.decrypt(encrypted)
+if message == decrypted:
+    print("OOOOOP")
+
+
+'''
+
 class Bank():
     #def __init__(self):
     #    self.name = name
@@ -33,3 +44,4 @@ bank = Bank()
 
 name, password, acountNumber = bank.openAccount()
 bank.getIntoAccount()
+'''
