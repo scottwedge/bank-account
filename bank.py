@@ -34,9 +34,16 @@ class Account():
             if promptPassword == self.password:
                 print("YOUIN")
                 self.login = True
+            else:
+                print("Wrong username or password")
+                self.isLogin()
+        else:
+            print("Wrong username or password")
+            self.isLogin()
 
-    #def isOverdraft(self, bool):
-    #    self.type = bool
+
+    def isOverdraft(self, bool):
+        self.type = bool
 
     def displayBalance(self):
         if self.login == True:
@@ -99,17 +106,6 @@ with open('accounts.csv', mode='w', newline = '') as accounts_file:
 key = Fernet.generate_key()
 f = Fernet(key)
 
-def Loop():
-    #while True:
-    #append to the csv file as you add accounts
-    account = Account(0, False, False, False, 'email', 'password')
-    account.openAccount()
-    password = account.password.encode()
-    encrypted = f.encrypt(password)
-    with open('accounts.csv', mode='a', newline = '') as accounts_file:
-        writer = csv.writer(accounts_file)#,  delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-        writer.writerow([account.email, encrypted, account.balance])
-
 #All the UI in the main
 def main():
     print("What do you want to do?"
@@ -118,12 +114,16 @@ def main():
     "\n 3. To Delete Account")
     userInput = int(input())
     if userInput == 1:
-        #Loop()
         account.openAccount()
+        password = account.password.encode()
+        encrypted = f.encrypt(password)
+        with open('accounts.csv', mode='a', newline = '') as accounts_file:
+            writer = csv.writer(accounts_file)#,  delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+            writer.writerow([account.email, encrypted, account.balance])
         main()
+
     if  userInput == 2:
         account.isLogin()
-        print("OUT of looop")
     if userInput == 3:
         Print("Dell")
     #Create()
