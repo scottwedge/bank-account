@@ -13,10 +13,10 @@ from cryptography.fernet import Fernet
 
 
 class Account():
-    def __init__(self, balance, overdraft, type, login, email = None, password = None):
-        self.balance = balance
-        self.overdraft = False
-        self.type = False
+    def __init__(self, login, email = None, password = None):     ######ADD BALANCE OVERDRAFT< TYPE
+        #self.balance = balance
+        #self.overdraft = False
+        #self.type = False
         self.email = email
         self.password = password
         self.accountNumber = random.randint(100000,999999)
@@ -27,6 +27,15 @@ class Account():
         self.password = input("Password: ")
 
     def isLogin(self):
+
+        with open('accounts.csv', mode='r', newline = '') as accounts_file:
+            line = accounts_file.readlines()
+            line = [line.rstrip('\n') for line in open('accounts_file')]
+
+            print(line)
+
+
+
         print("LOGIN TO YOUR ACCOUNT")
         promptEmail = input("Email: ")
         promptPassword = input("Password: ")
@@ -42,9 +51,13 @@ class Account():
             self.isLogin()
 
 
+    #Removed all to do with balance, overdraft
+    '''
     def isOverdraft(self, bool):
         self.type = bool
+    '''
 
+    '''
     def displayBalance(self):
         if self.login == True:
             print("Account balance: " +str(self.balance))
@@ -91,10 +104,12 @@ class Account():
         else:
             print("No")
         return
+    '''
 
 
+#######ADD 0, False, False
 #Create instance of class asap
-account = Account(0, False, False, False, 'email', 'password')
+account = Account(False, 'email', 'password')
 
 
 #Write the name row of the csv file
@@ -119,7 +134,7 @@ def main():
         encrypted = f.encrypt(password)
         with open('accounts.csv', mode='a', newline = '') as accounts_file:
             writer = csv.writer(accounts_file)#,  delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-            writer.writerow([account.email, encrypted, account.balance])
+            writer.writerow([account.email, encrypted])
         main()
 
     if  userInput == 2:

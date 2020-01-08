@@ -2,13 +2,28 @@ from cryptography.fernet import Fernet
 import random
 
 
-message = "my deep dark secret".encode()
-key = Fernet.generate_key() # Store this key or get if you already have it
-f = Fernet(key)
-encrypted = f.encrypt(message)
-decrypted = f.decrypt(encrypted)
-if message == decrypted:
-    print("OOOOOP")
+
+
+
+
+
+with open('accounts.csv', mode='r', newline = '') as accounts_file:
+    lines = accounts_file.readlines()
+
+    for line in lines:
+        new_line = line.split(',')
+        print(new_line[1,1])
+
+
+
+
+#message = "my deep dark secret".encode()
+#key = Fernet.generate_key() # Store this key or get if you already have it
+#f = Fernet(key)
+#encrypted = f.encrypt(message)
+#decrypted = f.decrypt(encrypted)
+#if message == decrypted:
+#    print("OOOOOP")
 
 
 '''
